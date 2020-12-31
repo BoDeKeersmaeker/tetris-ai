@@ -4,31 +4,37 @@ using UnityEngine;
 
 public class block : MonoBehaviour
 {
-    public static int height = 20;
-    public static int width = 10;
-    public float fallSpeed = 1f;
+    private int bottomLeftX = 0;
+    private int bottomLeftY = 0;
+    private int height = 20;
+    private int width = 10;
     private float elapsedSec;
+    private Transform[,] grid = new Transform[10, 20];
+    private float control = 0;
+    private ManagerScript managerScript = null;
+    private SpawnerScript spawnerScript = null;
+    
+    public float fallSpeed = 1f;
     public Vector3 pivot = new Vector3(0, 0, 0);
-    private static Transform[,] grid = new Transform[width, height];
 
     // Start is called before the first frame update
     void Start()
     {
-
+        grid = FindObjectOfType<ManagerScript>().GetGrid();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || control == 0)
             SafeMove(new Vector3(-1, 0, 0));
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || control == 1)
             SafeMove(new Vector3(1, 0, 0));
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || control == 2)
             SafeRotate(90);
 
         float tempFallSpeed = fallSpeed;
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || control == 4)
             tempFallSpeed /= 10;
 
         if (Time.time - elapsedSec > tempFallSpeed)
@@ -38,7 +44,6 @@ public class block : MonoBehaviour
                 AddToGrid();
                 CheckForLines();
                 this.enabled = false;
-                FindObjectOfType<SpawnerScript>().SpawnRandomBlock();
             }
             elapsedSec = Time.time;
         }
@@ -48,9 +53,9 @@ public class block : MonoBehaviour
     {
         bool isSafe = true;
         foreach (Transform children in transform)
-        {
-            int roundedX = Mathf.RoundToInt(children.transform.position.x + vector.x);
-            int roundedY = Mathf.RoundToInt(children.transform.position.y + vector.y);
+        { 
+            int roundedX = Mathf.RoundToInt(children.transform.position.x + vector.x - bottomLeftX);
+            int roundedY = Mathf.RoundToInt(children.transform.position.y + vector.y - bottomLeftY);
 
             if (roundedX < 0 || roundedX >= width || roundedY < 0 || roundedY >= height)
             {
@@ -74,8 +79,8 @@ public class block : MonoBehaviour
 
         foreach (Transform children in transform)
         {
-            int roundedX = Mathf.RoundToInt(children.transform.position.x);
-            int roundedY = Mathf.RoundToInt(children.transform.position.y);
+            int roundedX = Mathf.RoundToInt(children.transform.position.x - bottomLeftX);
+            int roundedY = Mathf.RoundToInt(children.transform.position.y - bottomLeftY);
 
             if (roundedX < 0 || roundedX >= width || roundedY < 0 || roundedY >= height)
             {
@@ -97,11 +102,19 @@ public class block : MonoBehaviour
     {
         foreach (Transform children in transform)
         {
-            int roundedX = Mathf.RoundToInt(children.transform.position.x);
-            int roundedy = Mathf.RoundToInt(children.transform.position.y);
+            int roundedX = Mathf.RoundToInt(children.transform.position.x - bottomLeftX);
+            int roundedY = Mathf.RoundToInt(children.transform.position.y - bottomLeftY);
 
-            grid[roundedX, roundedy] = children;
+            grid[roundedX, roundedY] = children;
+
+            if (roundedY > height - 2)
+            {
+                FindObjectOfType<ManagerScript>().GameOver();
+                return;
+            }
         }
+        FindObjectOfType<ManagerScript>().SetGrid(grid);
+        FindObjectOfType<SpawnerScript>().SpawnRandomBlock();
     }
 
     void CheckForLines()
@@ -109,6 +122,7 @@ public class block : MonoBehaviour
         for(int i = height - 1; i >= 0 ; i--)
             if(HasLine(i))
             {
+                FindObjectOfType<ManagerScript>().AddScore();
                 DeleteLine(i);
                 RowDown(i);
             }
@@ -141,5 +155,49 @@ public class block : MonoBehaviour
                     grid[j, y] = null;
                     grid[j, y - 1].transform.position -= new Vector3(0, 1, 0);
                 }
+    }
+
+    public void ResetGrid()
+    {
+        for(int i = 0; i < height; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                if (grid[j, i] != null)
+                {
+                    Destroy(grid[j, i].gameObject);
+                }
+            }
+        }
+
+        grid = new Transform[width, height];
+    }
+
+    public void SetControl(float tempControl)
+    {
+        control = tempControl;
+    }
+
+    public int GetWidth()
+    {
+        return width;
+    }
+
+    public int GetHeight()
+    {
+        return height;
+    }
+
+    public Transform[,] GetGrid()
+    {
+        return grid;
+    }
+
+    public void SetPlayfield(Transform playfield)
+    {
+        width = Mathf.RoundToInt(playfield.localScale.x);
+        height = Mathf.RoundToInt(playfield.localScale.y);
+        bottomLeftX = Mathf.RoundToInt(playfield.position.x - (width / 2));
+        bottomLeftY = Mathf.RoundToInt(playfield.position.y - (height / 2));
     }
 }
