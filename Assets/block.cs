@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class block : MonoBehaviour
@@ -8,36 +6,58 @@ public class block : MonoBehaviour
     private int bottomLeftY = 0;
     private int height = 20;
     private int width = 10;
-    private float elapsedSec;
-    private Transform[,] grid = new Transform[10, 20];
-    private float control = 0;
+    private float elapsedFallSec = 0;
+    private Transform[,] grid;
+    private float control1 = 0;
+    private float control2 = 0;
     private ManagerScript managerScript = null;
     private SpawnerScript spawnerScript = null;
-    
-    public float fallSpeed = 1f;
+    private float fallSpeed = 1f;
+    private bool useManualControl = true;
+    private float elapsedControlSec = 0;
+
+    public float controlTime = 0.1f;
     public Vector3 pivot = new Vector3(0, 0, 0);
 
     // Start is called before the first frame update
-    void Start()
-    {
-        grid = FindObjectOfType<ManagerScript>().GetGrid();
-    }
+    //void Start()
+    //{
+    // 
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || control == 0)
-            SafeMove(new Vector3(-1, 0, 0));
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || control == 1)
-            SafeMove(new Vector3(1, 0, 0));
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || control == 2)
-            SafeRotate(90);
-
         float tempFallSpeed = fallSpeed;
-        if (Input.GetKey(KeyCode.DownArrow) || control == 4)
-            tempFallSpeed /= 10;
 
-        if (Time.time - elapsedSec > tempFallSpeed)
+        if (Time.time - elapsedControlSec > controlTime)
+        {
+            bool keyWasPressed = false;
+
+            if ((!useManualControl && control1 == 1) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                SafeMove(new Vector3(-1, 0, 0));
+                keyWasPressed = true;
+            }
+            else if ((!useManualControl && control1 == 2) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                SafeMove(new Vector3(1, 0, 0));
+                keyWasPressed = true;
+            }
+            else if ((!useManualControl && control1 == 3) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SafeRotate(90);
+                keyWasPressed = true;
+            }
+
+            if ((!useManualControl && control2 == 1) || Input.GetKey(KeyCode.DownArrow))
+                tempFallSpeed /= 10;
+
+            if(keyWasPressed)
+                elapsedControlSec = Time.time;
+        }
+
+        if (Time.time - elapsedFallSec > tempFallSpeed)
         {
             if (!SafeMove(new Vector3(0, -1, 0)))
             {
@@ -45,7 +65,7 @@ public class block : MonoBehaviour
                 CheckForLines();
                 this.enabled = false;
             }
-            elapsedSec = Time.time;
+            elapsedFallSec = Time.time;
         }
     }
 
@@ -100,6 +120,12 @@ public class block : MonoBehaviour
 
     void AddToGrid()
     {
+        if (managerScript == null && spawnerScript == null)
+            return;
+
+        float moveScore = 0;
+        int biggestY = 0;
+
         foreach (Transform children in transform)
         {
             int roundedX = Mathf.RoundToInt(children.transform.position.x - bottomLeftX);
@@ -109,12 +135,35 @@ public class block : MonoBehaviour
 
             if (roundedY > height - 2)
             {
-                FindObjectOfType<ManagerScript>().GameOver();
+                managerScript.GameOver();
                 return;
             }
+
+            if (roundedY > biggestY)
+                biggestY = roundedY;
         }
-        FindObjectOfType<ManagerScript>().SetGrid(grid);
-        FindObjectOfType<SpawnerScript>().SpawnRandomBlock();
+
+        //if (biggestY <= managerScript.GetTotalHeight())
+        //    moveScore += 10;
+        //else
+        //    managerScript.SetTotalHeight(biggestY);
+
+
+        int newAmountOfHoles = managerScript.calculateAmountOfHoles();
+        if (newAmountOfHoles <= managerScript.GetAmountOfHoles())
+            moveScore += 10;
+        managerScript.SetAmountOfHoles(newAmountOfHoles);
+
+        if (moveScore > 0)
+        {
+            managerScript.AddReward(moveScore);
+            managerScript.AddTotalReward((int)moveScore);
+        }
+
+        //Debug.Log(managerScript.GetTotalReward());
+
+        managerScript.SetGrid(grid);
+        spawnerScript.SpawnRandomBlock();
     }
 
     void CheckForLines()
@@ -122,7 +171,8 @@ public class block : MonoBehaviour
         for(int i = height - 1; i >= 0 ; i--)
             if(HasLine(i))
             {
-                FindObjectOfType<ManagerScript>().AddScore();
+                if (managerScript != null)
+                    managerScript.AddScore();
                 DeleteLine(i);
                 RowDown(i);
             }
@@ -166,16 +216,16 @@ public class block : MonoBehaviour
                 if (grid[j, i] != null)
                 {
                     Destroy(grid[j, i].gameObject);
+                    grid[j, i] = null;
                 }
             }
         }
-
-        grid = new Transform[width, height];
     }
 
-    public void SetControl(float tempControl)
+    public void SetControl(float tempControl1, float tempControl2)
     {
-        control = tempControl;
+        control1 = tempControl1;
+        control2 = tempControl2;
     }
 
     public int GetWidth()
@@ -193,11 +243,18 @@ public class block : MonoBehaviour
         return grid;
     }
 
-    public void SetPlayfield(Transform playfield)
+    public void Initialise(Transform playfield, ManagerScript manager, SpawnerScript spawner)
     {
         width = Mathf.RoundToInt(playfield.localScale.x);
         height = Mathf.RoundToInt(playfield.localScale.y);
         bottomLeftX = Mathf.RoundToInt(playfield.position.x - (width / 2));
         bottomLeftY = Mathf.RoundToInt(playfield.position.y - (height / 2));
+
+        managerScript = manager;
+        spawnerScript = spawner;
+
+        grid = managerScript.GetGrid();
+        fallSpeed = managerScript.GetFallSpeed();
+        useManualControl = managerScript.IsUsingManualControl();
     }
 }
