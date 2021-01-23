@@ -8,7 +8,7 @@ The project will consist of 3 main parts: making the tetris game, researching ho
 First thing on the todo list is decide to use a game enige or to make it completely from scratch. I decided that using unity is the best option because bevause of the ease of use and I can finish the game way faster in unity. 
 
 
- ![Alt Text](url)
+ ![Alt Text](/ReadMeImages/)
 
 
 https://github.com/Unity-Technologies/ml-agents
