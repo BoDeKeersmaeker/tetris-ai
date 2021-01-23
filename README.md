@@ -1,12 +1,16 @@
 # tetris-ai
 
 ## Introduction
-Can you make a decent tetris ai. 
+Tetris looked like the perfect game to test a powerfull machine learning ai. The goal of this project is to test the vaibility of machine learning in a realy basic tertis game.
+The project will consist of 3 main parts: making the tetris game, researching how en what kind of machine learning to use, implementing the machine learning into the game.
+
+#The making of my tetris
 
 
 
 
-https://github.com/Unity-Technologies/ml-agents\n
+
+https://github.com/Unity-Technologies/ml-agents
 https://melax.github.io/tetris/tetris.html
 
 md python-envs
