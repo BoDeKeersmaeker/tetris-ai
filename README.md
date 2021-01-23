@@ -7,12 +7,12 @@ The project will consist of 3 main parts: making the tetris game, researching ho
 # The making of my tetris
 First thing on the todo list is decide to use a game enige or to make it completely from scratch. I decided that using unity is the best option because bevause of the ease of use and I can finish the game way faster in unity. To keep it simple I just made block prefabs of al the tetris block then made a block script that lowers them down. once they reach the bottom they get added to a static grid and disabled. if a block moves down onto a grid it also get added to the grid and disabled. Then I made a spawner script that spawnes a block everytime a block gets disabled and 1 time at the start of the game. thats it the basic game is completed.
 
- ![Alt Text](/ReadMeImages/)
+ ![Alt Text](/Images/)
  
 # Reasearching machine learning
-After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for tetris. After a few hours trying to understand it I still couldn't anyting written there so I kept looking. 
+After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for tetris. After a few hours trying to understand it I still couldn't grasp anything usefull written there so I kept looking. Then I found a unity package [Here](https://github.com/Unity-Technologies/ml-agents) that made using machine learning easy to use in unity. ml-agents can use ppo of sac
 
-https://github.com/Unity-Technologies/ml-agents
+
 https://melax.github.io/tetris/tetris.html
 
 md python-envs
