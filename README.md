@@ -24,17 +24,19 @@ This includes the grid of blockes and the current block. The game manager reward
 
 The ai is also rewarded 1000 points for removing a row.
 
-![](/Images/AIrewardRow.png).
+![](/Images/AIrewardRow.png)
 
 The ml-agent gives 2 numbers that decide the actions it wants to take. The first is a number between 0 and 3: 0 do nothing, 1 move left, 2 move right and 3 rotate. the second number is always between 0 and 1 like the first number 0 equals no move. And if the number is 1 fallingspeed of the block is increased.
 
-![](/Images/agentMovement.png).
+![](/Images/agentMovement.png)
 
 Now all of this is programmed the ai can almost start learning. the only thing left to do is make a config file.
 
-![](/Images/config.png).
+![](/Images/config.png)
 
+now the config file is done you can start the learning proces via powershell.
 
+![](/Images/startTraining.png)
 
 # Conclusion/Future work
 The result is disappointing. This is a bot that has trained 3 times for 20e6 steps.
