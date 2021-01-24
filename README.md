@@ -26,7 +26,7 @@ The ai is also rewarded 1000 points for removing a row.
 # Conclusion/Future work
 The result is disappointing. 
 
- ![Result](/Images/)
+ ![Result](/Images/aiNotSmart.gif)
  
  I think there are 2 main reasons the ai is not learning correctly. Reason 1 I think the reward system. The ai gets rewarded too often for random moves and doesn't get rewarded enough for good moves. The way to fix this is to add extra ways to reward the ai. Maybe adding reward for good moves with less inputs. The other porblem has to dowith my implementation that of tetris. There is a maximum amount of inputs/sec because of this the ai gives inputs that do not get registered. This ai to learn incorrectly. The po
  
