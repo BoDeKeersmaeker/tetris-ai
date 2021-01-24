@@ -24,12 +24,16 @@ The ai is also rewarded 1000 points for removing a row.
 
 ![](/Images/AIrewardRow.png).
 
+The ml-agent gives 2 numbers that decide the actions it wants to take. The first is a number between 0 and 3: 0 do nothing, 1 move left, 2 move right and 3 rotate. the second number is always between 0 and 1 like the first number 0 equals no move. 1 means speed up the fallingspeed of the block.
+
+![](/Images/agentMovement.png).
+
 # Conclusion/Future work
 The result is disappointing. This is a bot that has trained 3 times for 20e6 steps.
 
  ![Result](/Images/aiNotSmart.gif)
  
- I think there are 2 main reasons the ai is not learning correctly. Reason 1 I think the reward system. The ai gets rewarded too often for random moves and doesn't get rewarded enough for good moves. The way to fix this is to add extra ways to reward the ai. Maybe adding reward for good moves with less inputs. The other porblem has to dowith my implementation that of tetris. There is a maximum amount of inputs/sec because of this the ai gives inputs that do not get registered. This ai to learn incorrectly. The po
+ I think there are 2 main reasons the ai is not learning correctly. Reason 1 I think the reward system. The ai gets rewarded too often for random moves and doesn't get rewarded enough for good moves. The way to fix this is to add extra ways to reward the ai. Maybe adding reward for good moves with less inputs. The other porblem has to dowith my implementation that of tetris. There is a maximum amount of inputs/sec because of this the ai gives inputs that do not get registered. this causes the ai to think it made moves that did not happen.
  
 https://melax.github.io/tetris/tetris.html
 
