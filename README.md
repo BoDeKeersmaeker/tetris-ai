@@ -1,15 +1,15 @@
 # tetris-ai
 
 # Introduction
-Tetris looked like the perfect game to test a powerfull machine learning ai. The goal of this project is to test the vaibility of machine learning in a realy basic tertis game.
+Tetris looked like the perfect game to test a powerfull machine learning ai. Because it is complex but not too complex and it has an ez to understand ruleset. The goal of this project is to test the vaibility of machine learning in a realy basic tertis game.
 
 # Design/implementation
-## The making of my tetris game
-First thing on the todo list is decide to use a game engine or to make it completely from scratch. I decided that using unity is the best option because of the ease of use and I can finish the game way faster in unity. To keep it simple I just made block prefabs of al the tetris blocks. Then I made a block script that lowers them down. once they reach the bottom they get added to a static grid and are disabled. If a block moves down onto the grid grid it also get added to the grid and disabled. Then I made a spawner script that gets called by the block and spawns a new one every time one gets disabled and 1 time at the start of the game. Finaly every time a block gets placed a check is run to see if there is a row. If there is a row it is deleted and all block above it are moved down.
+## The making of my Tetris game
+First thing on the to-do list Was to decide to use a game engine or to make it completely from scratch. I decided that using unity is the best option because it is easy to use and I can finish the game way faster in unity. To keep it simple I made block prefabs of all the Tetris blocks. Every block has a static grid member variable that hold all the current placed blocks. Then I made a block script that lowers them down. Once they reach the bottom they get added to the grid and are disabled. If a block moves down onto the grid it also get added to the grid and disabled. Then I made a spawner script that gets called by the block and spawns a new one every time one gets disabled and 1 time at the start of the game. Finally every time a block gets placed a check is run to see if there is a row. If there is a row it is deleted and all block above it are moved down.
 
 ![](/Images/tetrisWorks.gif)  
 
-## Reasearching machine learning
+## Researching machine learning
 After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for tetris. After a few hours trying to understand it I still couldn't grasp anything usefull written there so I kept looking. Then I found a unity package [Here](https://github.com/Unity-Technologies/ml-agents) that made using machine learning easy to use in unity. ml-agents can use 2 type of machine learning PPO(Proximal Policy Optimization) or SAC(Soft Actor Critic). I decided to use PPO 
 bacause PPO is more suited for a where it has to make al lot decisions continuously. SAC is more suited for boardgames with a slower pace. I is also less stable.
 
