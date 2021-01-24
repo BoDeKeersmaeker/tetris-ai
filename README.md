@@ -1,7 +1,7 @@
 # tetris-ai
 
 # Introduction
-Tetris looked like the perfect game to test a powerfull machine learning ai. Because it is complex but not too complex and it has an ez to understand ruleset. The goal of this project is to test the vaibility of machine learning in a realy basic tertis game.
+Tetris looked like the perfect game to test a powerful machine learning ai. Because it is complex but not too complex and it has an ez to understand ruleset. The goal of this project is to test the viability of machine learning in a really basic Tetris game.
 
 # Design/implementation
 ## The making of my Tetris game
@@ -10,15 +10,14 @@ First thing on the to-do list Was to decide to use a game engine or to make it c
 ![](/Images/tetrisWorks.gif)  
 
 ## Researching machine learning
-After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for tetris. After a few hours trying to understand it I still couldn't grasp anything usefull written there so I kept looking. Then I found a unity package [Here](https://github.com/Unity-Technologies/ml-agents) that made using machine learning easy to use in unity. ml-agents can use 2 type of machine learning PPO(Proximal Policy Optimization) or SAC(Soft Actor Critic). I decided to use PPO 
-bacause PPO is more suited for a where it has to make al lot decisions continuously. SAC is more suited for boardgames with a slower pace. I is also less stable.
+After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for Tetris. After a few hours trying to understand it I still couldn't grasp anything useful written there so I kept looking. Then I found a unity package [Here](https://github.com/Unity-Technologies/ml-agents) that made implementing powerful machine learning agents in unity easier. Ml-agents can use 2 type of machine learning PPO(Proximal Policy Optimization) or SAC(Soft Actor Critic). I decided to use PPO. because PPO is more suited for situations where making substantial amounts of decisions continuously is necessary. SAC is more suited for boardgames with a slower pace. It is also less stable.
 
 ## implementing machine learning
-To start implementing the ai. I had to refactor some parts of the tetris code. As you might have noticed I forgot to make a gameover state. I also had to give some information to the the ml-agent and reward the agent for good moves. To fix this I added a game manager script. The manager script now holds the grid of blocks and the grid itself is no longer static to allow more than one game to run at once (for faster learning). I added a score system to the game manager script. The manager gives all the needed information to the ml agent.
+To start implementing the ai. I had to refactor some parts of the tetris code. I forgot to make a game over state. This is necesary because the ai needs to know when to restart. So I added a check to see if the grid grew to tall. I had to give some information to the ml-agent and reward the agent for good moves. To fix all of the above I added a game manager script. The manager script now holds the grid of blocks and the grid itself is no longer static to allow more than one game to run at once (for faster learning). I added a score system to the game manager script. The manager also gives all the needed information to the ml agent.
 
 ![](/Images/AIObservatiobs.png)  
 
-This includes the grid of blockes and the current block. The game manager rewards the ml agent for "good moves" the bot gains. A good move is decided by the movescore. The movescore gets increased by 10 if the placed block does not increase the total height of the grid. The movescore also gets increased by 10 if the placed block does not create new holes(a empty space with a block above it).
+This includes the grid of blocks and the current block. The game manager rewards the ml agent for "good moves" the bot is rewarded. A good move is decided by the moveScore. The moveScore gets increased by 10 if the placed block does not increase the total height of the grid. The moveScore also gets increased by 10 points if the placed block does not create new holes(an empty space with a block above it).
 
 ![](/Images/blockReward.png) 
 
@@ -26,20 +25,20 @@ The ai is also rewarded 1000 points for removing a row.
 
 ![](/Images/AIrewardRow.png)
 
-The ml-agent gives 2 numbers that decide the actions it wants to take. The first is a number between 0 and 3: 0 do nothing, 1 move left, 2 move right and 3 rotate. the second number is always between 0 and 1 like the first number 0 equals no move. And if the number is 1 fallingspeed of the block is increased.
+The ml-agent returns 2 numbers that decide the actions it wants to take. The first is a number between 0 and 3: 0 do nothing, 1 move left, 2 move right and 3 rotate. The second number is always between 0 and 1. Like the first number 0 equals do nothing and number 1 increases the fallingspeed of the block.
 
 ![](/Images/agentMovement.png)
 
 Now all of this is programmed the ai can almost start learning. the only thing left to do is make a config file.
 Some extra information about the config options I used:
-* trainer_type: this one speaks for itselfs. Choose between PPO and SAC.
-* summary_freq: Per how many steps is data printed to powershell(usefull to see if the ai is improving).
-* max_steps: How many steps(updates of the ml-agent) before the program stops.
-* time_horizon: how many steps 1 episode(one game of tetris) can be(the hnumber is large because tetris can go on for a long time).
+* trainer_type: Choose between PPO and SAC.
+* summary_freq: Per how many steps data is printed to powershell(usefull to check if the ai is improving).
+* max_steps: How many steps (updates of the ml-agent) before the program stops.
+* time_horizon: how many steps 1 episode (one game of tetris) can be (the hnumber is large because tetris can go on for a long time).
 * threaded: setting this to true allows the program to keep running while the ai calculates the next action.
 * num_layers and hidden_units: Both affect the neural network the more complex the problem the higher they should be.
-* vis_encoder_type: Used for images of very complex data I set it to the default simple.
-* normalize: It is recomended to set this to true so I did that.
+* vis_encoder_type: Used for images or very complex data. I set it to the default value.
+* normalize: It might give undefined behaviour if set to false. Because of this it is recomended to be set to true.
 
 ![](/Images/AIconfig.png)
 
@@ -50,8 +49,8 @@ now the config file is done you can start the learning proces via powershell.
 ![](/Images/trainingRunning.png)
 
 # Conclusion/Future work
-The result is disappointing. This is a bot that has trained 3 times for 20e6 steps.
+This bot has trained 3 times for 20e6 steps. The result are disappointing because it seems like the ai didn't improve much.
 
  ![Result](/Images/aiNotSmart.gif)
  
- I think there are 2 main reasons the ai is not learning correctly. Reason 1 I think the reward system. The ai gets rewarded too often for random moves and doesn't get rewarded enough for good moves. The way to fix this is to add extra ways to reward the ai. Maybe adding reward for good moves with less inputs. The other porblem has to dowith my implementation that of tetris. There is a maximum amount of inputs/sec because of this the ai gives inputs that do not get registered. this causes the ai to think it made moves that did not happen.
+ I think there are 2 main reasons the ai is not learning correctly. the first reason I think is the reward system. The ai gets rewarded too often for random moves and doesn't get rewarded enough for good moves. The way to fix this is to add extra ways to reward the ai. Maybe adding rewards for good moves with less inputs. The other porblem has to do with my implementation of tetris. There is a maximum amount of inputs/sec because of this the ai gives inputs that do not get registered. This causes the ai to think it made moves that did not happen. To fix this I would have to refactor huge parts of my Tetris code. Ultimatly I think to make machine learning ai for Tetris, it would have been better to make my own game from scratch without an engine. That would have allowed me more freedom to fix core issues like the one mentioned above.
