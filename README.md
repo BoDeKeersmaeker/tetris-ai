@@ -13,10 +13,14 @@ After a bit of research I found a document [Here](https://melax.github.io/tetris
 
 ## implementing machine learning
 To start implementing the ai. I had to refactor some parts of the tetris code. As you might have noticed I forgot to make a gameover state. I also had to give some information to the the ml-agent and reward the agent for good moves. To fix this I added a game manager script. The manager script now holds the grid of blocks and the grid itself is no longer static to allow more than one game to run at once (for faster learning). I added a score system to the game manager script. The manager gives all the needed information to the ml agent.
+
 ![](/Images/AIObservatiobs.png)  
+
 This includes the grid of blockes and the current block. The game manager rewards the ml agent for "good moves" the bot gains. A good move is decided by the movescore. The movescore gets increased by 10 if the placed block does not increase the total height of the grid. The movescore also gets increased by 10 if the placed block does not create new holes(a empty space with a block above it).
 ![](/Images/blockReward.png) 
+
 The ai is also rewarded 1000 points for removing a row.
+
 ![](/Images/AIrewardRow.png).
 
 # Conclusion/Future work
