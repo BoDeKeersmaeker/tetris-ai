@@ -41,10 +41,9 @@ Some extra information about the config options I used:
 * vis_encoder_type: Used for images of very complex data I set it to the default simple.
 * normalize: It is recomended to set this to true so I did that.
 
-![](/Images/config.png)
+![](/Images/AIconfig.png)
 
 now the config file is done you can start the learning proces via powershell.
-
 
 ![](/Images/startTraining.png)
 
