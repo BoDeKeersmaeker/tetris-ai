@@ -31,8 +31,15 @@ The ml-agent gives 2 numbers that decide the actions it wants to take. The first
 ![](/Images/agentMovement.png)
 
 Now all of this is programmed the ai can almost start learning. the only thing left to do is make a config file.
-Some extra information about the config:
-* trainer_type this one speaks for itselfs. Choose between PPO and SAC.
+Some extra information about the config options I used:
+* trainer_type: this one speaks for itselfs. Choose between PPO and SAC.
+* summary_freq: Per how many steps is data printed to powershell(usefull to see if the ai is improving).
+* max_steps: How many steps(updates of the ml-agent) before the program stops.
+* time_horizon: how many steps 1 episode(one game of tetris) can be(the hnumber is large because tetris can go on for a long time).
+* threaded: setting this to true allows the program to keep running while the ai calculates the next action.
+* num_layers and hidden_units: Both affect the neural network the more complex the problem the higher they should be.
+* vis_encoder_type: Used for images of very complex data I set it to the default simple.
+* normalize: It is recomended to set this to true so I did that.
 
 ![](/Images/config.png)
 
