@@ -1,19 +1,22 @@
 # tetris-ai
 
-## Introduction
+# Introduction
 Tetris looked like the perfect game to test a powerfull machine learning ai. The goal of this project is to test the vaibility of machine learning in a realy basic tertis game.
 The project will consist of 3 main parts: making the tetris game, researching how en what kind of machine learning to use, implementing the machine learning into the game.
 
-# The making of my tetris
+# Design/implementation
+## The making of my tetris
 First thing on the todo list is decide to use a game engine or to make it completely from scratch. I decided that using unity is the best option because bevause of the ease of use and I can finish the game way faster in unity. To keep it simple I just made block prefabs of al the tetris block then made a block script that lowers them down. once they reach the bottom they get added to a static grid and disabled. if a block moves down onto a grid it also get added to the grid and disabled. Then I made a spawner script that spawnes a block everytime a block gets disabled and 1 time at the start of the game. thats it the basic game is completed.
 
  ![Alt Text](/Images/)
  
-# Reasearching machine learning
+## Reasearching machine learning
 After a bit of research I found a document [Here](https://melax.github.io/tetris/tetris.html) about using reinforcement learning for tetris. After a few hours trying to understand it I still couldn't grasp anything usefull written there so I kept looking. Then I found a unity package [Here](https://github.com/Unity-Technologies/ml-agents) that made using machine learning easy to use in unity. ml-agents can use ppo of sac I decided that ppo.
 
-# implementing machine learning
+## implementing machine learning
 To start implementing the ai I had to refactor some parts of the tetris code. As you might have noticed I forgot to make a gameover state. I also had to give some information to the the ml-agent and reward the agent for good moves. To fix this I added a game manager script. The manager script now holds the grid of blocks and the grid itself is no longer static to allow more than one game to run at once. I added a score system to the game manager script. The manager gives all the needed information to the ml agent this includes the grid of blockes and the current block. The game manager rewards the ml agent for "good moves" the bot gains 
+
+# Conclusion/Future work
 
 https://melax.github.io/tetris/tetris.html
 
