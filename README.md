@@ -1,5 +1,3 @@
-# tetris-ai
-
 # Introduction
 Tetris looked like the perfect game to test a powerful machine learning ai. Because it is complex but not too complex and it has an ez to understand ruleset. The goal of this project is to test the viability of machine learning in a really basic Tetris game.
 
