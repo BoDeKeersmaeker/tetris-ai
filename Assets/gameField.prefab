@@ -128,6 +128,11 @@ PrefabInstance:
       propertyPath: spawnerScript
       value: 
       objectReference: {fileID: 6262433271025304389}
+    - target: {fileID: 856685855944512491, guid: e2c357ac1af2a044e8d12c55b2d5a87d,
+        type: 3}
+      propertyPath: gameOverOpacitie
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2023302934431384455, guid: e2c357ac1af2a044e8d12c55b2d5a87d,
         type: 3}
       propertyPath: m_RootOrder

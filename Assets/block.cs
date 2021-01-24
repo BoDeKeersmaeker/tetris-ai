@@ -143,10 +143,10 @@ public class block : MonoBehaviour
                 biggestY = roundedY;
         }
 
-        //if (biggestY <= managerScript.GetTotalHeight())
-        //    moveScore += 10;
-        //else
-        //    managerScript.SetTotalHeight(biggestY);
+        if (biggestY <= managerScript.GetTotalHeight())
+            moveScore += 10;
+        else
+            managerScript.SetTotalHeight(biggestY);
 
 
         int newAmountOfHoles = managerScript.calculateAmountOfHoles();

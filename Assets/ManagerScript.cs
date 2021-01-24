@@ -26,7 +26,6 @@ public class ManagerScript : Agent
             fallSpeed -= 0.025f;
         AddReward(1000);
         totalReward += 1000;
-        //Debug.Log(totalReward);
     }
 
     public void SetGrid(Transform[,] tempGrid)
@@ -105,6 +104,8 @@ public class ManagerScript : Agent
     public void GameOver()
     {
         EndEpisode();
+        this.enabled = false;
+
     }
 
     public override void OnEpisodeBegin()
