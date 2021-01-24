@@ -45,6 +45,7 @@ Some extra information about the config options I used:
 
 now the config file is done you can start the learning proces via powershell.
 
+
 ![](/Images/startTraining.png)
 
 # Conclusion/Future work
