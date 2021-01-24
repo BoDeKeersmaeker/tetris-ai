@@ -17,6 +17,7 @@ To start implementing the ai. I had to refactor some parts of the tetris code. A
 ![](/Images/AIObservatiobs.png)  
 
 This includes the grid of blockes and the current block. The game manager rewards the ml agent for "good moves" the bot gains. A good move is decided by the movescore. The movescore gets increased by 10 if the placed block does not increase the total height of the grid. The movescore also gets increased by 10 if the placed block does not create new holes(a empty space with a block above it).
+
 ![](/Images/blockReward.png) 
 
 The ai is also rewarded 1000 points for removing a row.
@@ -24,7 +25,7 @@ The ai is also rewarded 1000 points for removing a row.
 ![](/Images/AIrewardRow.png).
 
 # Conclusion/Future work
-The result is disappointing. 
+The result is disappointing. This is a bot that has trained 3 times for 20e^6 steps.
 
  ![Result](/Images/aiNotSmart.gif)
  
