@@ -31,6 +31,8 @@ The ml-agent gives 2 numbers that decide the actions it wants to take. The first
 ![](/Images/agentMovement.png)
 
 Now all of this is programmed the ai can almost start learning. the only thing left to do is make a config file.
+Some extra information about the config:
+* trainer_type this one speaks for itselfs. Choose between PPO and SAC.
 
 ![](/Images/config.png)
 
