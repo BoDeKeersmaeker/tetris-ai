@@ -25,7 +25,7 @@ The ai is also rewarded 1000 points for removing a row.
 ![](/Images/AIrewardRow.png).
 
 # Conclusion/Future work
-The result is disappointing. This is a bot that has trained 3 times for 20e^6 steps.
+The result is disappointing. This is a bot that has trained 3 times for 20e6 steps.
 
  ![Result](/Images/aiNotSmart.gif)
  
