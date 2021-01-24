@@ -47,6 +47,8 @@ now the config file is done you can start the learning proces via powershell.
 
 ![](/Images/startTraining.png)
 
+![](/Images/trainingRunning.png)
+
 # Conclusion/Future work
 The result is disappointing. This is a bot that has trained 3 times for 20e6 steps.
 
